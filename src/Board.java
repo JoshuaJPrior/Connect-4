@@ -38,12 +38,10 @@ public class Board {
         }
         return -1;
     }
-    
+
     public Boolean isValidMove(int column) {
-        if (this.state[0][column].representation.equals(" ")) {
-            return true;
-        }
-        return this.state[getRowOfLastMove(column - 1)][column].representation.equals(" ");
+
+        return this.state[0][column].representation.equals(" ");
     }
 
     public Board makeMove(Token token, int column) {
@@ -75,9 +73,9 @@ public class Board {
         for (int row = 0; row < 6; row++) {
             for (int column = 0; column < 7; column++) {
                 if (gameState[row][column].representation.equals(" ")) {
-                    System.out.print("\"\"" + " ");
+                    System.out.print("\" \"" + " ");
                 } else {
-                    System.out.print(gameState[row][column].representation + " ");
+                    System.out.print("\"" + gameState[row][column].representation + "\"" + " ");
                 }
             }
             System.out.println();

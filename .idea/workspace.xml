@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5c645840-6f6f-4693-8670-4ccd4eaab5ad" name="Changes" comment="Improved the game by adding a check fork etc">
+    <list default="true" id="5c645840-6f6f-4693-8670-4ccd4eaab5ad" name="Changes" comment="Added a gui that works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Connect4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Connect4.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
@@ -77,7 +77,7 @@
       <workItem from="1669669003789" duration="1516000" />
       <workItem from="1669711332106" duration="24312000" />
       <workItem from="1669748668552" duration="3149000" />
-      <workItem from="1669797431971" duration="16583000" />
+      <workItem from="1669797431971" duration="23993000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit - Added classes">
       <created>1669671958485</created>
@@ -100,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669750099128</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added a gui that works">
+      <created>1669816386165</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669816386165</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,7 +128,18 @@
     <MESSAGE value="Initial commit - Added classes" />
     <MESSAGE value="Added basic game" />
     <MESSAGE value="Improved the game by adding a check fork etc" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved the game by adding a check fork etc" />
+    <MESSAGE value="Added a gui that works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a gui that works" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

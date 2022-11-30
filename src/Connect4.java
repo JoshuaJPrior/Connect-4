@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.concurrent.TimeUnit;
 
 public class Connect4 extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -11,12 +12,30 @@ public class Connect4 extends JPanel implements ActionListener, MouseListener, M
     private static Point p1, p2;
 
     public Connect4() {
-
         frame = new JFrame("Connect4");
         frame.setBounds(50, 50, WIDTH, HEIGHT);
-        frame.add(this);
+        JPanel titleJPanel = new JPanel();
+        titleJPanel.setBackground(new Color(52, 210, 235));
+        titleJPanel.setVisible(true);
+        titleJPanel.setLayout(null);
+
+        JLabel titleLabel = new JLabel("Connect 4");
+        titleLabel.setFont(new Font("Serif", Font.PLAIN, 100));
+        titleLabel.setBounds(250, 250, 450, 100);
+        titleJPanel.add(titleLabel);
+
+        frame.add(titleJPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        this.setVisible(false);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+
+        }
+        frame.add(this);
+        this.setVisible(true);
 
         this.setBackground(new Color(52, 210, 235));
 
@@ -31,14 +50,15 @@ public class Connect4 extends JPanel implements ActionListener, MouseListener, M
         Player player1 = new Player("Joshua", new Token("r"));
         Player player2 = new Player("Computer", new Token("y"));
         newGame = new Game(player1, player2);
-        int initialWidth = 1300;
+
         int initialHeight = 800;
         boardLength = 7;
         boardHeight = 6;
-        widthUnit = initialWidth / (boardLength + 2);
-        WIDTH = widthUnit * (boardLength + 2);
         heightUnit = initialHeight / (boardHeight + 2);
         HEIGHT = heightUnit * (boardHeight + 2);
+        widthUnit = heightUnit;
+        WIDTH = widthUnit * (boardLength + 2);
+        ;
     }
 
     public static void main(String[] args) {
@@ -46,11 +66,10 @@ public class Connect4 extends JPanel implements ActionListener, MouseListener, M
     }
 
     public void actionPerformed(ActionEvent e) {
-        repaint();
+        super.repaint();
     }
 
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         newGame.draw(g);
     }
 

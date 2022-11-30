@@ -222,17 +222,45 @@ public class Game {
         ((Graphics2D) g).setStroke(new BasicStroke(2.0f));
 
         g.setColor(new Color(48, 87, 230));
-        g.fillRect(Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - 2 * Connect4.widthUnit, Connect4.HEIGHT - 2 * Connect4.heightUnit);
+        g.fillRect(Connect4.widthUnit, Connect4.heightUnit + 25, Connect4.WIDTH - 2 * Connect4.widthUnit, Connect4.HEIGHT - 2 * Connect4.heightUnit);
+
+        Polygon polygon = new Polygon();
+        polygon.addPoint(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit + 25);
+        polygon.addPoint(Connect4.WIDTH - Connect4.widthUnit + 10, Connect4.heightUnit + 15);
+        polygon.addPoint(Connect4.WIDTH - Connect4.widthUnit + 10, Connect4.HEIGHT - Connect4.heightUnit + 15);
+        polygon.addPoint(Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit + 25);
+
+        g.fillPolygon(polygon);
+
+        Polygon polygon2 = new Polygon();
+        polygon2.addPoint(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit + 25);
+        polygon2.addPoint(Connect4.WIDTH - Connect4.widthUnit + 10, Connect4.heightUnit + 15);
+        polygon2.addPoint(Connect4.widthUnit + 10, Connect4.heightUnit + 15);
+        polygon2.addPoint(Connect4.widthUnit, Connect4.heightUnit + 25);
+
+        g.fillPolygon(polygon2);
 
         g.setColor(Color.BLACK);
-        g.drawLine(Connect4.widthUnit, Connect4.heightUnit, Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
-        g.drawLine(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
-        g.drawLine(Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
-        g.drawLine(Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit);
+
+        Polygon polygon3 = new Polygon();
+        polygon3.addPoint(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit + 25);
+        polygon3.addPoint(Connect4.WIDTH - Connect4.widthUnit + 4, Connect4.heightUnit + 20);
+        polygon3.addPoint(Connect4.widthUnit + 8, Connect4.heightUnit + 20);
+        polygon3.addPoint(Connect4.widthUnit, Connect4.heightUnit + 25);
+
+        g.fillPolygon(polygon3);
+
+        g.drawPolygon(polygon);
+        g.drawPolygon(polygon2);
+
+        g.setColor(Color.BLACK);
+        g.drawLine(Connect4.widthUnit, Connect4.heightUnit + 25, Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit + 25);
+        g.drawLine(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit + 25, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit + 25);
+        g.drawLine(Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit + 25, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit + 25);
+        g.drawLine(Connect4.widthUnit, Connect4.heightUnit + 25, Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit + 25);
 
         for (int i = Connect4.widthUnit; i <= Connect4.WIDTH - Connect4.widthUnit; i += Connect4.widthUnit) {
-            //g.setColor(Color.BLACK);
-            //g.drawLine(i, Connect4.heightUnit, i, Connect4.HEIGHT - Connect4.heightUnit);
+
             if (i == Connect4.WIDTH - Connect4.widthUnit) {
                 continue;
             }
@@ -247,9 +275,10 @@ public class Game {
                 if (this.currentBoard.getIndividualToken(j / Connect4.heightUnit - 1, i / Connect4.widthUnit - 1).equals("y")) {
                     g.setColor(Color.YELLOW);
                 }
-                g.fillOval(i + 5, j + 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+
+                g.fillOval(i + 5, j + 30, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
                 g.setColor(Color.BLACK);
-                g.drawOval(i + 5, j + 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+                g.drawOval(i + 5, j + 30, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
             }
 
             if (determineGameStatus(this.players[0].token, -1) != GameStatus.PLAYING) {

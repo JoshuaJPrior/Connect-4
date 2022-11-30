@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.*;
 
 enum GameStatus {
@@ -8,6 +9,8 @@ public class Game {
     public Board currentBoard;
     public int totalMoves;
     public Player[] players;
+    public int hoverX;
+    public Boolean finishedComputerMove = true;
 
     public Game(Player player1, Player player2) {
         this.currentBoard = new Board();
@@ -211,6 +214,100 @@ public class Game {
                     return possibleCol;
                 }
             }
+        }
+    }
+
+    public void draw(Graphics g) {
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Graphics2D) g).setStroke(new BasicStroke(2.0f));
+
+        g.setColor(new Color(48, 87, 230));
+        g.fillRect(Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - 2 * Connect4.widthUnit, Connect4.HEIGHT - 2 * Connect4.heightUnit);
+
+        g.setColor(Color.BLACK);
+        g.drawLine(Connect4.widthUnit, Connect4.heightUnit, Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
+        g.drawLine(Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
+        g.drawLine(Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.HEIGHT - Connect4.heightUnit);
+        g.drawLine(Connect4.widthUnit, Connect4.heightUnit, Connect4.WIDTH - Connect4.widthUnit, Connect4.heightUnit);
+
+        for (int i = Connect4.widthUnit; i <= Connect4.WIDTH - Connect4.widthUnit; i += Connect4.widthUnit) {
+            //g.setColor(Color.BLACK);
+            //g.drawLine(i, Connect4.heightUnit, i, Connect4.HEIGHT - Connect4.heightUnit);
+            if (i == Connect4.WIDTH - Connect4.widthUnit) {
+                continue;
+            }
+            for (int j = Connect4.heightUnit; j < Connect4.HEIGHT - Connect4.heightUnit; j += Connect4.heightUnit) {
+
+                if (this.currentBoard.getIndividualToken(j / Connect4.heightUnit - 1, i / Connect4.widthUnit - 1).equals(" ")) {
+                    g.setColor(new Color(52, 210, 235));
+                }
+                if (this.currentBoard.getIndividualToken(j / Connect4.heightUnit - 1, i / Connect4.widthUnit - 1).equals("r")) {
+                    g.setColor(Color.RED);
+                }
+                if (this.currentBoard.getIndividualToken(j / Connect4.heightUnit - 1, i / Connect4.widthUnit - 1).equals("y")) {
+                    g.setColor(Color.YELLOW);
+                }
+                g.fillOval(i + 5, j + 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+                g.setColor(Color.BLACK);
+                g.drawOval(i + 5, j + 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+            }
+
+            if (determineGameStatus(this.players[0].token, -1) != GameStatus.PLAYING) {
+                g.setColor(Color.GREEN);
+            } else {
+                g.setColor(Color.RED);
+            }
+            g.fillOval(hoverX + 5, 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+            g.setColor(Color.BLACK);
+            g.drawOval(hoverX + 5, 5, Connect4.widthUnit - 10, Connect4.heightUnit - 10);
+        }
+    }
+
+    public void hover(int x) {
+        x -= x % Connect4.widthUnit;
+        if (x < Connect4.widthUnit) {
+            x = Connect4.widthUnit;
+        }
+        if (x >= Connect4.WIDTH - Connect4.widthUnit) {
+            x = Connect4.WIDTH - 2 * Connect4.widthUnit;
+        }
+        this.hoverX = x;
+    }
+
+    public void drop(Boolean userClicked, Token token, int clickedX) {
+        if (this.determineGameStatus(token, -1) == GameStatus.PLAYING) {
+
+            if (userClicked && !finishedComputerMove) {
+                return;
+            }
+            if (!this.currentBoard.isValidMove(clickedX / Connect4.widthUnit - 1)) {
+                return;
+            }
+            if (userClicked) {
+                finishedComputerMove = false;
+            }
+            new Thread(() -> {
+                int x = clickedX;
+                for (int i = 0; i < Connect4.boardHeight && this.currentBoard.getIndividualToken(i, x / Connect4.widthUnit - 1).equals(" "); i++) {
+                    this.currentBoard.setIndividualToken(i, x / Connect4.widthUnit - 1, token);
+                    try {
+                        Thread.currentThread().sleep(100);
+                    } catch (Exception ignored) {
+                    }
+                    this.currentBoard.setIndividualToken(i, x / Connect4.widthUnit - 1, new Token(" "));
+                }
+                this.currentBoard.makeMove(token, x / Connect4.widthUnit - 1);
+                this.currentBoard.printBoard();
+                if (!userClicked) {
+                    finishedComputerMove = true;
+                }
+
+                if (userClicked && this.determineGameStatus(token, -1) == GameStatus.PLAYING) {
+                    int computerCol = this.determineComputerMove(x / Connect4.widthUnit);
+                    int clickedX2 = computerCol * Connect4.widthUnit;
+                    drop(false, new Token("y"), clickedX2);
+                }
+            }).start();
         }
     }
 }
